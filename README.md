@@ -2,7 +2,7 @@
 
 My solutions for the [cses problemset](https://cses.fi/problemset/) in C++.  I started in February 2023; below is my current progress.
 
-## Completed Problems
+## Completed Problems- [profile](https://cses.fi/problemset/user/151240/)
 
 [1. Introductory Problems](./01_intro)-  (19)
 
