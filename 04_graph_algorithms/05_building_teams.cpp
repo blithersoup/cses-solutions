@@ -5,10 +5,11 @@ int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(nullptr);
 
-  int n, m, a, b; cin >> n >> m;
+  int n, m, a, b;
+  cin >> n >> m;
 
   unordered_map<int, set<int>> graph;
-  vector<int> teams (n + 1, 0);
+  vector<int> teams(n + 1, 0);
 
   for (int i = 1; i <= m; i++) {
     cin >> a >> b;
@@ -16,36 +17,35 @@ int main() {
     graph[b].emplace(a);
   }
 
-  queue<pair<int, int>> q;
+  queue<int> q;
 
+  int next, j;
 
-  auto bfs = [&](pair<int, int> in) -> bool {
-    int node = in.first, color = in.second;
-    if (teams[node]) return true;
-    int other = -color;
-    for (int adj : graph[node]) {
-      if (teams[adj] == color) return false;
-      teams[adj] = other;
-      q.push({adj, other});
-    }
-    return true;
-  };
-  
   for (int i = 1; i <= n; i++) {
     if (!teams[i]) {
-      q.push({i, 1});
+      queue<int> q;
+      q.push(i);
       while (!q.empty()) {
-        if (!bfs(q.front())) {
-          cout << "IMPOSSIBLE\n";
-          return 0;
+        j = q.front(); q.pop();
+        next = 2;
+        if (teams[j] == 2)
+          next = 1;
+        else
+          teams[i] = 1;
+
+        for (auto x : graph[j]) {
+          if (teams[x] == teams[j]) {
+            cout << "IMPOSSIBLE\n";
+            return 0;
+          }
+          if (!teams[x]) {
+            teams[x] = next;
+            q.push(x);
+          }
         }
-        q.pop();
       }
     }
   }
-
-  for (int i = 1; i <= n; i++) {
-    cout << ((teams[i] == 1) ? 1 : 2) << " ";
-  }
-
+  for (int i = 1; i <= n; i++) cout << teams[i] << " ";
+  cout << "\n";
 }
